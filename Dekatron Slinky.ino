@@ -85,6 +85,36 @@ void D_revB()                    // Dekatron Reverse - Counter-Clockwise
 
 }
 
+void D_advC()                    // Dekatron Advance - Clockwise
+{
+	dk_ct++;
+	if (dk_ct == 3) dk_ct = 0;
+	d_step(dk_ct, IndexC, Guide1C, Guide2C);
+}
+
+void D_revC()                    // Dekatron Reverse - Counter-Clockwise
+{
+	dk_ct--;
+	if (dk_ct == -1) dk_ct = 2;
+	d_step(dk_ct, IndexC, Guide1C, Guide2C);
+
+}
+
+void D_advD()                    // Dekatron Advance - Clockwise
+{
+	dk_ct++;
+	if (dk_ct == 3) dk_ct = 0;
+	d_step(dk_ct, IndexD, Guide1D, Guide2D);
+}
+
+void D_revD()                    // Dekatron Reverse - Counter-Clockwise
+{
+	dk_ct--;
+	if (dk_ct == -1) dk_ct = 2;
+	d_step(dk_ct, IndexD, Guide1D, Guide2D);
+
+}
+
 void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom, Forward (cw)
 	if (Ndx) {                   //   When swing hits Ndx [K0] cathode, then max swing is achieved 
 		Ndx = false;                //   Set vars for next state, and jump to state 2
@@ -103,6 +133,8 @@ void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom,
 			Scnt--;                   //   while decrementing step counter.
 			D_advA();
 			D_advB();
+			D_advC();
+			D_advD();
 
 		}
 	}
@@ -118,6 +150,8 @@ void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either
 		Scnt--;                     //   contiue stepping in reverse
 		D_revA();
 		D_revB();//   while drecrementing counter
+		D_revC();
+		D_revD();
 	}
 }
 
@@ -138,8 +172,10 @@ void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, eith
 		}
 		else {
 			Scnt--;                   // Otherwise, contine stepping forward
-			D_advA();                  //   while decrementing counter
+			D_advA();
 			D_advB();
+			D_advC();
+			D_advD();
 		}
 
 	}
@@ -154,7 +190,9 @@ void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, eith
 	else {                        // Otherwise, continue stepping in reverse
 		Scnt--;                     //   while decrementing counter
 		D_revA();
-		D_revB();
+		D_revB();//   while drecrementing counter
+		D_revC();
+		D_revD();
 	}
 }
 
@@ -174,6 +212,8 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 			Scnt--;                     //   while decrementing counter.
 			D_advA();
 			D_advB();
+			D_advC();
+			D_advD();
 		}
 	}
 }
@@ -197,6 +237,8 @@ void setup() {
 	Ndx = 0;
 	D_advA();
 	D_advB();
+	D_advC();
+	D_advD();
 
 }
 
