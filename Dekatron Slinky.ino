@@ -40,6 +40,9 @@ int IndexD = 24;       // Index   - NDX input pin. High when glow at K0
 int Ndx = 0;          // K0 index indicator variable
 int Tick = false;     // 1mS tick
 
+int Acceleration = 0;
+int Counter = 0;
+
 
 
 
@@ -124,7 +127,7 @@ void D_revD()                    // Dekatron Reverse - Counter-Clockwise
 
 void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom, Forward (cw)
 	Serial.println("Action 0");
-	delay(100);
+	//delay(100);
 	
 	if (Ndx) {                   //   When swing hits Ndx [K0] cathode, then max swing is achieved 
 		Ndx = false;                //   Set vars for next state, and jump to state 2
@@ -152,7 +155,7 @@ void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom,
 
 void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either bottom, or top, Reverse (ccw)
 	Serial.println("Action 1");
-	delay(100);
+	//delay(100);
 	if (Scnt == 0) {              //   at full steps (count = 0), increase swing, preset count
 		state--;                    //   and jump to forward growth state (0 or 4)
 		swing++;                    //   This routine is called while in either state 1 (bottom) or state 5 (top)
@@ -169,7 +172,7 @@ void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either
 
 void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, either bottom, or top, Forward (cw)
 	Serial.println("Action 2");
-	delay(100);
+	//delay(100);
 	if (swing < 2) {              //   until swing is at minimum (2)
 		state = (state + 2) & 7;    //   then jump to state 4 (if at 2 - top) or 0 (if at 6 - bottom)
 									//  if (state == 2) state = 4;
@@ -197,7 +200,7 @@ void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, eith
 
 void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, either bottom, or top, Reverse (ccw)
 	Serial.println("Action 3");
-	delay(100);
+	//delay(100);
 	if (Scnt == 0) {              //   at full steps (count = 0),
 		state--;                    //   decrease swing length, and jump to
 		swing--;                    //   state 2 (if at state 3 - top) or
@@ -214,7 +217,7 @@ void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, eith
 
 void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Forward (cw)
 	Serial.println("Action 4");
-	delay(100);
+	//delay(100);
 	if (swing >= 30) {            //   When swing length reaches 30 (maximum),
 		state = 6;                   //   jump to state 6, and preset swing and count
 		swing = 30;
@@ -235,6 +238,25 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 		}
 	}
 }
+
+
+void dk_action10() {             // Dekatron Action Routine 10 - Grow from Top, Forward (cw)
+	Serial.println("Action 10");
+	Serial.println(Counter);
+	
+	if (Counter >= 100) //if (Ndx)Acceleration = Acceleration + pow(2, Acceleration); // if you use 200  (or 50 with flip on) as the counter size it's an interesting effect.
+	{
+		Counter = 0;
+		Acceleration = 0;
+	}
+	Counter++;
+		
+	delay(Acceleration);
+	if (Ndx)Acceleration = Acceleration + pow(1, Acceleration);
+	 D_advB();
+}
+
+
 
 
 // setup() runs once, at reset, to initialize system
@@ -293,6 +315,8 @@ void loop() {
 			break;
 		case 2:
 			dk_action2();            // Shrink, Forward
+			dk_action10();
+			
 			digitalWrite(LED, LOW);
 			break;
 		case 3:
