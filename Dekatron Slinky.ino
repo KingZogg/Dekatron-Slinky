@@ -9,7 +9,14 @@ by Michael Moorrees
 int swing = 2;        // swing range - 2 to 30
 int Scnt = 0;         // step count
 int state = 0;        // State - Machine State
-int dk_ct = 0;        // Dekatron Guide count - 0,1, or 2
+
+int dk_ctA = 0;        // Dekatron Guide count - 0,1, or 2
+int dk_ctB = 0;        // Dekatron Guide count - 0,1, or 2
+int dk_ctC = 0;        // Dekatron Guide count - 0,1, or 2
+int dk_ctD = 0;        // Dekatron Guide count - 0,1, or 2
+
+
+
 int LED = 13;          // Test LED
 
 
@@ -57,61 +64,61 @@ void d_step(int dk_bt,int Index, int Guide1,int Guide2) // Dekatron Step
 
 void D_advA()                    // Dekatron Advance - Clockwise
 {
-	dk_ct++;
-	if (dk_ct == 3) dk_ct = 0;
-	d_step(dk_ct,IndexA,Guide1A,Guide2A);
+	dk_ctA++;
+	if (dk_ctA == 3) dk_ctA = 0;
+	d_step(dk_ctA,IndexA,Guide1A,Guide2A);
 }
 
 void D_revA()                    // Dekatron Reverse - Counter-Clockwise
 {
-	dk_ct--;
-	if (dk_ct == -1) dk_ct = 2;
-	d_step(dk_ct, IndexA, Guide1A, Guide2A);
+	dk_ctA--;
+	if (dk_ctA == -1) dk_ctA = 2;
+	d_step(dk_ctA, IndexA, Guide1A, Guide2A);
 
 }
 
 void D_advB()                    // Dekatron Advance - Clockwise
 {
-	dk_ct++;
-	if (dk_ct == 3) dk_ct = 0;
-	d_step(dk_ct, IndexB, Guide1B, Guide2B);
+	dk_ctB++;
+	if (dk_ctB == 3) dk_ctB = 0;
+	d_step(dk_ctB, IndexB, Guide1B, Guide2B);
 }
 
 void D_revB()                    // Dekatron Reverse - Counter-Clockwise
 {
-	dk_ct--;
-	if (dk_ct == -1) dk_ct = 2;
-	d_step(dk_ct, IndexB, Guide1B, Guide2B);
+	dk_ctB--;
+	if (dk_ctB == -1) dk_ctB = 2;
+	d_step(dk_ctB, IndexB, Guide1B, Guide2B);
 
 }
 
 void D_advC()                    // Dekatron Advance - Clockwise
 {
-	dk_ct++;
-	if (dk_ct == 3) dk_ct = 0;
-	d_step(dk_ct, IndexC, Guide1C, Guide2C);
+	dk_ctC++;
+	if (dk_ctC == 3) dk_ctC = 0;
+	d_step(dk_ctC, IndexC, Guide1C, Guide2C);
 }
 
 void D_revC()                    // Dekatron Reverse - Counter-Clockwise
 {
-	dk_ct--;
-	if (dk_ct == -1) dk_ct = 2;
-	d_step(dk_ct, IndexC, Guide1C, Guide2C);
+	dk_ctC--;
+	if (dk_ctC == -1) dk_ctC = 2;
+	d_step(dk_ctC, IndexC, Guide1C, Guide2C);
 
 }
 
 void D_advD()                    // Dekatron Advance - Clockwise
 {
-	dk_ct++;
-	if (dk_ct == 3) dk_ct = 0;
-	d_step(dk_ct, IndexD, Guide1D, Guide2D);
+	dk_ctD++;
+	if (dk_ctD == 3) dk_ctD = 0;
+	d_step(dk_ctD, IndexD, Guide1D, Guide2D);
 }
 
 void D_revD()                    // Dekatron Reverse - Counter-Clockwise
 {
-	dk_ct--;
-	if (dk_ct == -1) dk_ct = 2;
-	d_step(dk_ct, IndexD, Guide1D, Guide2D);
+	dk_ctD--;
+	if (dk_ctD == -1) dk_ctD = 2;
+	d_step(dk_ctD, IndexD, Guide1D, Guide2D);
 
 }
 
@@ -135,7 +142,7 @@ void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom,
 		else {                      // otherwise, continue stepping forward,
 			Scnt--;                   //   while decrementing step counter.
 			D_advA();
-			D_advB();
+		//	D_advB();
 			D_advC();
 			D_advD();
 
@@ -154,7 +161,7 @@ void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either
 	else {                        // If not yet at full step
 		Scnt--;                     //   contiue stepping in reverse
 		D_revA();
-		D_revB();//   while drecrementing counter
+	//	D_revB();//   while drecrementing counter
 		D_revC();
 		D_revD();
 	}
@@ -180,7 +187,7 @@ void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, eith
 		else {
 			Scnt--;                   // Otherwise, contine stepping forward
 			D_advA();
-			D_advB();
+		//	D_advB();
 			D_advC();
 			D_advD();
 		}
@@ -199,7 +206,7 @@ void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, eith
 	else {                        // Otherwise, continue stepping in reverse
 		Scnt--;                     //   while decrementing counter
 		D_revA();
-		D_revB();//   while drecrementing counter
+	//	D_revB();//   while drecrementing counter
 		D_revC();
 		D_revD();
 	}
@@ -222,12 +229,13 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 		else {                       // Otherwisw, continue stepping forward
 			Scnt--;                     //   while decrementing counter.
 			D_advA();
-			D_advB();
+		//	D_advB();
 			D_advC();
 			D_advD();
 		}
 	}
 }
+
 
 // setup() runs once, at reset, to initialize system
 // initialize hardware and preset variables
