@@ -242,18 +242,21 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 
 void dk_action10() {             // Dekatron Action Routine 10 - Grow from Top, Forward (cw)
 	Serial.println("Action 10");
-	Serial.println(Counter);
+	//Serial.println(Acceleration);
 	
-	if (Counter >= 100) //if (Ndx)Acceleration = Acceleration + pow(2, Acceleration); // if you use 200  (or 50 with flip on) as the counter size it's an interesting effect.
+	if (Counter >= 1000) //if (Ndx)Acceleration = Acceleration + pow(2, Acceleration); // if you use 200  (or 50 with flip on) as the counter size it's an interesting effect.
 	{
 		Counter = 0;
 		Acceleration = 0;
+
+		
 	}
 	Counter++;
-		
+	
+	
 	delay(Acceleration);
 	if (Ndx)Acceleration = Acceleration + pow(1, Acceleration);
-	 D_advB();
+	D_advB();
 }
 
 
@@ -304,6 +307,15 @@ void setup() {
 //          at min go back to state 0
 //
 void loop() {
+
+	dk_action10();
+	
+	
+}
+
+void timerISR() {
+	Tick = true;
+	
 	if (Tick) {
 		Tick = false;
 		switch (state) {             // Do action per current state
@@ -315,8 +327,6 @@ void loop() {
 			break;
 		case 2:
 			dk_action2();            // Shrink, Forward
-			dk_action10();
-			
 			digitalWrite(LED, LOW);
 			break;
 		case 3:
@@ -334,10 +344,10 @@ void loop() {
 		case 7:
 			dk_action3();            // Shrink, Reverse
 		}
+
+
+
 		// delay(1);                    // Pause 1mS
 	}
-}
 
-void timerISR() {
-	Tick = true;
 }
