@@ -20,21 +20,21 @@ int dk_ctD = 0;        // Dekatron Guide count - 0,1, or 2
 int LED = 13;          // Test LED
 
 
-int Guide1A = 52;       // Guide 1 - G1 pin of 2-guide Dekatron
-int Guide2A = 50;       // Guide 2 - G2 pin of 2-guide Dekatron
-int IndexA = 48;       // Index   - NDX input pin. High when glow at K0
+const int Guide1A = 52;       // Guide 1 - G1 pin of 2-guide Dekatron
+const int Guide2A = 50;       // Guide 2 - G2 pin of 2-guide Dekatron
+const int IndexA = 48;       // Index   - NDX input pin. High when glow at K0
 
-int Guide1B = 44;       // Guide 1 - G1 pin of 2-guide Dekatron
-int Guide2B = 42;       // Guide 2 - G2 pin of 2-guide Dekatron
-int IndexB = 40;       // Index   - NDX input pin. High when glow at K0
+const int Guide1B = 44;       // Guide 1 - G1 pin of 2-guide Dekatron
+const int Guide2B = 42;       // Guide 2 - G2 pin of 2-guide Dekatron
+const int IndexB = 40;       // Index   - NDX input pin. High when glow at K0
 
-int Guide1C = 36;       // Guide 1 - G1 pin of 2-guide Dekatron
-int Guide2C = 34;       // Guide 2 - G2 pin of 2-guide Dekatron
-int IndexC = 32;       // Index   - NDX input pin. High when glow at K0
+const int Guide1C = 36;       // Guide 1 - G1 pin of 2-guide Dekatron
+const int Guide2C = 34;       // Guide 2 - G2 pin of 2-guide Dekatron
+const int IndexC = 32;       // Index   - NDX input pin. High when glow at K0
 
-int Guide1D = 28;       // Guide 1 - G1 pin of 2-guide Dekatron
-int Guide2D = 26;       // Guide 2 - G2 pin of 2-guide Dekatron
-int IndexD = 24;       // Index   - NDX input pin. High when glow at K0
+const int Guide1D = 28;       // Guide 1 - G1 pin of 2-guide Dekatron
+const int Guide2D = 26;       // Guide 2 - G2 pin of 2-guide Dekatron
+const int IndexD = 24;       // Index   - NDX input pin. High when glow at K0
 
 
 int Ndx = 0;          // K0 index indicator variable
