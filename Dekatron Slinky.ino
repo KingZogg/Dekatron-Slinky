@@ -20,8 +20,8 @@ int dk_ctD = 0;        // Dekatron Guide count - 0,1, or 2
 int LED = 13;          // Test LED
 
 
-int Guide1A = 50;       // Guide 1 - G1 pin of 2-guide Dekatron
-int Guide2A = 52;       // Guide 2 - G2 pin of 2-guide Dekatron
+int Guide1A = 52;       // Guide 1 - G1 pin of 2-guide Dekatron
+int Guide2A = 50;       // Guide 2 - G2 pin of 2-guide Dekatron
 int IndexA = 48;       // Index   - NDX input pin. High when glow at K0
 
 int Guide1B = 44;       // Guide 1 - G1 pin of 2-guide Dekatron
@@ -126,7 +126,7 @@ void D_revD()                    // Dekatron Reverse - Counter-Clockwise
 }
 
 void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom, Forward (cw)
-	Serial.println("Action 0");
+	//Serial.println("Action 0");
 	//delay(100);
 	
 	if (Ndx) {                   //   When swing hits Ndx [K0] cathode, then max swing is achieved 
@@ -144,8 +144,8 @@ void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom,
 		}
 		else {                      // otherwise, continue stepping forward,
 			Scnt--;                   //   while decrementing step counter.
-			D_advA();
-		//	D_advB();
+		//	D_advA();
+			D_advB();
 			D_advC();
 			D_advD();
 
@@ -154,7 +154,7 @@ void dk_action0() {             // Dekatron Action Routine 0 - Grow from Bottom,
 }
 
 void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either bottom, or top, Reverse (ccw)
-	Serial.println("Action 1");
+	//Serial.println("Action 1");
 	//delay(100);
 	if (Scnt == 0) {              //   at full steps (count = 0), increase swing, preset count
 		state--;                    //   and jump to forward growth state (0 or 4)
@@ -163,15 +163,15 @@ void dk_action1() {             // Dekatron Action Routine 1 - Grow from, either
 	}
 	else {                        // If not yet at full step
 		Scnt--;                     //   contiue stepping in reverse
-		D_revA();
-	//	D_revB();//   while drecrementing counter
+	//	D_revA();
+		D_revB();//   while drecrementing counter
 		D_revC();
 		D_revD();
 	}
 }
 
 void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, either bottom, or top, Forward (cw)
-	Serial.println("Action 2");
+	//Serial.println("Action 2");
 	//delay(100);
 	if (swing < 2) {              //   until swing is at minimum (2)
 		state = (state + 2) & 7;    //   then jump to state 4 (if at 2 - top) or 0 (if at 6 - bottom)
@@ -189,8 +189,8 @@ void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, eith
 		}
 		else {
 			Scnt--;                   // Otherwise, contine stepping forward
-			D_advA();
-		//	D_advB();
+		//	D_advA();
+			D_advB();
 			D_advC();
 			D_advD();
 		}
@@ -199,7 +199,7 @@ void dk_action2() {             // Dekatron Action Routine 2 - Shrink from, eith
 }
 
 void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, either bottom, or top, Reverse (ccw)
-	Serial.println("Action 3");
+	//Serial.println("Action 3");
 	//delay(100);
 	if (Scnt == 0) {              //   at full steps (count = 0),
 		state--;                    //   decrease swing length, and jump to
@@ -208,15 +208,15 @@ void dk_action3() {             // Dekatron Action Routine 3 - Shrink from, eith
 	}
 	else {                        // Otherwise, continue stepping in reverse
 		Scnt--;                     //   while decrementing counter
-		D_revA();
-	//	D_revB();//   while drecrementing counter
+	//	D_revA();
+		D_revB();//   while drecrementing counter
 		D_revC();
 		D_revD();
 	}
 }
 
 void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Forward (cw)
-	Serial.println("Action 4");
+	//Serial.println("Action 4");
 	//delay(100);
 	if (swing >= 30) {            //   When swing length reaches 30 (maximum),
 		state = 6;                   //   jump to state 6, and preset swing and count
@@ -231,8 +231,8 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 		}
 		else {                       // Otherwisw, continue stepping forward
 			Scnt--;                     //   while decrementing counter.
-			D_advA();
-		//	D_advB();
+		//	D_advA();
+			D_advB();
 			D_advC();
 			D_advD();
 		}
@@ -240,11 +240,12 @@ void dk_action4() {             // Dekatron Action Routine 4 - Grow from Top, Fo
 }
 
 
-void dk_action10() {             // Dekatron Action Routine 10 - Grow from Top, Forward (cw)
+void dk_action10() {             
 	Serial.println("Action 10");
 	//Serial.println(Acceleration);
+	Serial.println(Counter);
 	
-	if (Counter >= 1000) //if (Ndx)Acceleration = Acceleration + pow(2, Acceleration); // if you use 200  (or 50 with flip on) as the counter size it's an interesting effect.
+	if (Counter >= 50) //if (Ndx)Acceleration = Acceleration + pow(2, Acceleration); // if you use 200  (or 50 with flip on) as the counter size it's an interesting effect.
 	{
 		Counter = 0;
 		Acceleration = 0;
@@ -255,10 +256,50 @@ void dk_action10() {             // Dekatron Action Routine 10 - Grow from Top, 
 	
 	
 	delay(Acceleration);
-	if (Ndx)Acceleration = Acceleration + pow(1, Acceleration);
+	if (IndexB)Acceleration = Acceleration + pow(1, Acceleration);
 	D_advB();
 }
 
+
+void dk_action11() {                      //Seconds
+	Serial.println("Action 11");
+	if (digitalRead(IndexA)) delay(1000);   // Sample for glow at K0
+	delay(10);
+	D_advA();
+	
+}
+
+void dk_action12() {                      //Seconds
+	Serial.println("Action 11");
+	if (digitalRead(IndexB)) delay(1000);   // Sample for glow at K0
+	delay(10);
+	
+	D_advB();
+	
+}
+void dk_action13() {                      //Seconds
+	Serial.println("Action 11");
+	if (digitalRead(IndexC)) delay(1000);   // Sample for glow at K0
+	delay(10);
+	
+	
+	D_advC();
+	
+}
+void dk_action14() {                      //Seconds
+	Serial.println("Action 11");
+	if (digitalRead(IndexD)) delay(1000);   // Sample for glow at K0
+	delay(10);
+	
+	D_advD();
+}
+
+
+//void dk_action12() {                     
+//	Serial.println("Action 12");
+//	
+//	D_advB();
+//}
 
 
 
@@ -308,14 +349,20 @@ void setup() {
 //
 void loop() {
 
-	dk_action10();
+	dk_action11();
+	//dk_action12();
+	//dk_action13();
+	//dk_action14();
+	
 	
 	
 }
 
 void timerISR() {
 	Tick = true;
-	
+
+
+
 	if (Tick) {
 		Tick = false;
 		switch (state) {             // Do action per current state
